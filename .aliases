@@ -170,3 +170,9 @@ command -v npm > /dev/null && alias npme="npm --registry http://registry.npmjs.e
 # install npm dependencies from cache
 # https://github.com/npm/npm/issues/2568#issuecomment-30626394
 alias npmo="sudo npm install --cache-min 999999999"
+
+# Lock the screen (when going AFK)
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+
+# Reload the shell (i.e. invoke as a login shell)
+alias reload="exec $SHELL -l"
