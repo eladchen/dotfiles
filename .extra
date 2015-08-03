@@ -1,0 +1,22 @@
+# export PATH=$PATH:$PLAY_HOME
+alias server="cd ~/Projects/incapsula/my/server"
+alias splay="export PLAY_HOME=~/Projects/incapsula/my/play-1.2.5; ~/Projects/incapsula/my/server/scripts/server-play.sh" 
+# alias grace="cd ~/workspace/graceland" 
+# alias gplay="export PLAY_HOME=~/Applications/dev/play-1.3; ~/workspace/graceland/scripts/graceland-play.sh" 
+# alias nplay="export PLAY_HOME=~/Applications/dev/play-1.3; ~/workspace/netcontrol/scripts/netcontrol-play.sh"
+
+# requires nvm to be intstalled @ /usr/local/nvm
+export NVM_DIR="/usr/local/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Export 'npm bin' to local bins before global ones.
+export PATH=$(npm bin):$PATH
+
+vagrant_server_ssh() {
+    cd ~/projects/incapsula/vagrant/server
+
+    ssh `vagrant ssh-config | awk '{print " -o "$1"="$2}'` localhost $@
+
+    # cd back to $OLDPWD ( if its set )
+    cd $OLDPWD > /dev/null
+}

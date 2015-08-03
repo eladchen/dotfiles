@@ -20,7 +20,6 @@ alias j="jobs"
 
 # programs
 
-alias subl='open -a "Sublime Text"'
 # alias preview="open -a '$PREVIEW'"
 alias xcode="open -a '/Developer/Applications/Xcode.app'"
 alias filemerge="open -a '/Developer/Applications/Utilities/FileMerge.app'"
@@ -32,9 +31,6 @@ alias chromium="open -a chromium"
 alias dashcode="open -a dashcode"
 alias fireworks="open -a '/Applications/Adobe Fireworks CS6/Adobe Fireworks CS6.app'"
 alias photoshop="open -a '/Applications/Adobe Photoshop CS6/Adobe Photoshop.app'"
-
-# Proof of lazyiness
-alias f='open -a Finder'
 
 # Thanks to stefanpenner for this one.
 # https://www.youtube.com/watch?v=SMWi7CLoZ2Q
