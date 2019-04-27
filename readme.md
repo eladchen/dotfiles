@@ -1,4 +1,4 @@
-# Addy's dotfiles.
+# Elad's dotfiles.
 
 This repo contains my personal dotfiles and are heavily based on [paul](https://github.com/paulirish/dotfiles/) and [mathias](https://github.com/mathiasbynens/dotfiles/)'s.
 
@@ -111,3 +111,6 @@ git clone https://github.com/addyosmani/dotfiles.git && cd dotfiles && ./sync.sh
 ```
 
 To update later on, just run the sync again.
+
+### Useful links
+- http://stackoverflow.com/questions/20410252/how-to-reuse-an-ssh-connection
