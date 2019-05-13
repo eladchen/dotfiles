@@ -1,29 +1,52 @@
+# + ------------------------------- +
+# | Exports                         |
+# + ------------------------------- +
 export NVM_DIR="$HOME/.nvm" && source "$NVM_DIR/nvm.sh"
 export GROOVY_HOME=/usr/local/opt/groovy/libexec
 export KUB_HOME="$HOME/.kube"
+export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
 
-# Use 'npx' instead of this
-# export PATH=$(npm bin):$PATH
+if [ -r "$HOME/utils/bin" ]; then
+  export PATH=$HOME/utils/bin:$PATH
+fi
+# ██████████████████████████████████████████████████████████
 
-# Kubernetes aliases.
-alias kubectl-alias-name='kubectl -n prod "$@" --kubeconfig="$KUB_HOME/kubectl-config"'
+# + ------------------------------- +
+# | Sourcing                       |
+# + ------------------------------- +
+[ -r "$NVM_DIR" ] && source "$NVM_DIR/nvm.sh"
 
-alias gitrepo='chrome `git-remote-url origin`'
+# Setup z only when the when not in zsh shell and z.sh is present.
+[ -z "$ZSH_VERSION" ] && [ -r "$HOME/utils/z/revision/z.sh" ] && source "$HOME/utils/z/revision/z.sh"
+# ██████████████████████████████████████████████████████████
 
-# Set up aliases for changing java versions quickly. 
-for version in 1.7 1.8 11; do
-  v="${version//\./_}"
-	v="${v//1_/}"
-	h=JAVA_"$v"_HOME
+# + ------------------------------- +
+# | Functions                       |
+# + ------------------------------- +
+# Set up aliases for changing java versions quickly.
+function create-java-alias() {
+  local bin=$(/usr/libexec/java_home -v $1 2> /dev/null)
 
-  # This creates an env variable for each java version
-  export "$h"=$(/usr/libexec/java_home -v $version)
-	
-  # This creates an alias that allows changing java versions
-	alias "java-$v"="export JAVA_HOME=\$$h; java -version"
-done
+  if [[ bin != "" ]]; then
+    v="${version//\./_}"
+    v="${v//1_/}"
+    h=JAVA_"$v"_HOME
+  
+    # This creates an env variable for each java version
+    export "$h"=$bin
+    
+    # This creates an alias that allows changing java versions
+    alias "java-$v"="export JAVA_HOME=\$$h; java -version"
 
-git-remote-url() {
+    return 0
+  else
+    >&2 echo "Could not find a java executable matching version $1"
+
+    exit 1  
+  fi
+}
+
+function git-remote-url() {
  local rmt=$1; shift || { printf "Usage: git-remote-url [REMOTE]\n" >&2; return 1; }
  local url
 
@@ -43,3 +66,18 @@ git-remote-url() {
 
  printf "%s\n" "$url"
 }
+# ██████████████████████████████████████████████████████████
+
+# + ------------------------------- +
+# | Aliases                         |
+# + ------------------------------- +
+# alias kubectl-alias-name='kubectl -n prod "$@" --kubeconfig="$KUB_HOME/kubectl-config"'
+
+alias gitrepo='chrome `git-remote-url origin`'
+
+create-java-alias 1.7 2> /dev/null
+create-java-alias 1.8 2> /dev/null
+create-java-alias 11 2> /dev/null
+# ██████████████████████████████████████████████████████████
+
+# xcode-select --install

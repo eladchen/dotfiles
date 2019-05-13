@@ -13,14 +13,18 @@ echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH.
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
 brew install findutils
 
-# Install latest Bash
 brew install bash
+brew install zsh
+brew install antigen
+
+echo "Don't forget to add $(brew --prefix bash)/bin/bash & $(brew --prefix zsh)/bin/zsh to /etc/shells"
 
 brew install wget
 brew install ack
 brew install git
 brew install rename
 brew install tree
+
 
 # Remove outdated versions from the cellar
 brew cleanup

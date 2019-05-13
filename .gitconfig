@@ -1,14 +1,23 @@
+[user]
+  name = Elad Chen
 [alias]
-	c = commit -am
-	up = pull
-	p = push
-	s = status -s
-	df = diff --color --color-words --abbrev
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	st = status -s
+	ci = commit
+	ca = commit -a -m
+	co = checkout
+	br = branch -a
+	branches = branch -a
+	pick = cherry-pick
+	amend = commit --amend
+	merged = branch -a --merged
+	graph = log --graph --full-history --all --color --pretty=tformat:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an)%x1b[0m"
 [color]
 	ui = always
 [apply]
 	whitespace = fix
+[branch]
+  autosetuprebase = always
+  autosetupmerge = always
 [core]
 	excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
