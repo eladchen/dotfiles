@@ -1,7 +1,7 @@
 # + ------------------------------- +
 # | Exports                         |
 # + ------------------------------- +
-export NVM_DIR="$HOME/.nvm" && source "$NVM_DIR/nvm.sh"
+export NVM_DIR="$HOME/.nvm"
 export GROOVY_HOME=/usr/local/opt/groovy/libexec
 export KUB_HOME="$HOME/.kube"
 export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
@@ -12,7 +12,7 @@ fi
 # ██████████████████████████████████████████████████████████
 
 # + ------------------------------- +
-# | Sourcing                       |
+# | Sourcing                        |
 # + ------------------------------- +
 [ -r "$NVM_DIR" ] && source "$NVM_DIR/nvm.sh"
 
@@ -26,8 +26,8 @@ fi
 # Set up aliases for changing java versions quickly.
 function create-java-alias() {
   local bin=$(/usr/libexec/java_home -v $1 2> /dev/null)
-
-  if [[ bin != "" ]]; then
+  
+  if [[ $? -eq 0 ]]; then
     v="${version//\./_}"
     v="${v//1_/}"
     h=JAVA_"$v"_HOME
@@ -42,7 +42,7 @@ function create-java-alias() {
   else
     >&2 echo "Could not find a java executable matching version $1"
 
-    exit 1  
+    return 1 
   fi
 }
 
