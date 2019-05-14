@@ -1,13 +1,22 @@
 # uncomment to profile prompt startup with zprof
 # zmodload zsh/zprof
 
-# history
-SAVEHIST=100000
-
 # vim bindings
 # bindkey -v
 
 fpath=( "$HOME/.zfunctions" $fpath )
+
+## History configuration
+SAVEHIST=100000
+HISTFILE="$HOME/.zsh_history"
+
+setopt extended_history       # record timestamp of command in HISTFILE
+setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_dups       # ignore duplicated commands history list
+setopt hist_ignore_space      # ignore commands that start with space
+# setopt hist_verify          # show command with history expansion to user before running it
+setopt inc_append_history     # add commands to HISTFILE in order of execution
+setopt share_history          # share command history data
 
 # antigen time! (assumes brew installation path)
 # source /usr/local/share/antigen/antigen.zsh
@@ -50,6 +59,9 @@ antigen bundles <<EOF
 	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/yarn
 	robbyrussell/oh-my-zsh plugins/yarn
 
+	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/yarn
+	robbyrussell/oh-my-zsh lib/functions.zsh
+
 	# A magical 'cd' alternative
 	# https://github.com/rupa/z
 	rupa/z
@@ -66,7 +78,7 @@ antigen bundles <<EOF
 	# https://github.com/zsh-users/zsh-autosuggestions
 	zsh-users/zsh-autosuggestions
 
-	# https://github.com/
+	# https://github.com/trapd00r/zsh-syntax-highlighting-filetypes
 	trapd00r/zsh-syntax-highlighting-filetypes
 
 	# sindresorhus's "pure" (lightweight theme with prompt)
@@ -79,17 +91,26 @@ EOF
 # Tell antigen that you're done.
 antigen apply
 
+# Configure "pure"
+export PURE_GIT_UNTRACKED_DIRTY=0
+
 ###
 #################################################################################################
 
 # bind UP and DOWN arrow keys for history search
 zmodload zsh/terminfo
-bindkey "$terminfo[kcuu1]" history-substring-search-up
-bindkey "$terminfo[kcud1]" history-substring-search-down
-bindkey '`' autosuggest-accept
-bindkey '``' autosuggest-execute
 
-export PURE_GIT_UNTRACKED_DIRTY=0
+# fuzzy find history traversal using [Up-Arrow] / [Down-Arrow]
+# https://github.com/robbyrussell/oh-my-zsh/blob/486fa1010df847bfd8823b4492623afc7c935709/lib/key-bindings.zsh#L31-L41
+autoload -U    up-line-or-beginning-search
+autoload -U    down-line-or-beginning-search
+zle -N         up-line-or-beginning-search
+zle -N         down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
+
+bindkey '`'	               autosuggest-accept
+bindkey '``'               autosuggest-execute
 
 # Automatically list directory contents on `cd`.
 function auto-ls() {
@@ -100,11 +121,6 @@ function auto-ls() {
 }
 
 chpwd_functions=( auto-ls $chpwd_functions )
-
-# history mgmt
-# http://www.refining-linux.org/archives/49/ZSH-Gem-15-Shared-history/
-setopt inc_append_history
-setopt share_history
 
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
