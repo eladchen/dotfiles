@@ -41,7 +41,7 @@ module.exports = {
     // color of the text
     foregroundColor: '#fff',
 
-    opacity: 0.9,
+    opacity: 0.95,
 
     // terminal background color
     // opacity is only supported on macOS
@@ -144,6 +144,21 @@ module.exports = {
     // Whether to use the WebGL renderer. Set it to false to use canvas-based
     // rendering (slower, but supports transparent backgrounds)
     webGLRenderer: true,
+
+    hypercwd: {
+        initialWorkingDirectory: '~'
+    },
+
+    hyperline: {
+      plugins: [
+        "hostname",
+        "ip",
+        "memory",
+        "battery",
+        "cpu",
+        "network"
+      ]
+    },
 
     // for advanced config flags please refer to https://hyper.is/#cfg
   },

@@ -22,6 +22,11 @@ setopt share_history          # share command history data
 # source /usr/local/share/antigen/antigen.zsh
 source $HOME/antigen.zsh
 
+# Customize "pure" prompt colors
+zstyle :prompt:pure:branch    color yellow
+zstyle :prompt:pure:success   color green
+zstyle :prompt:pure:exec_time color white
+
 antigen bundles <<EOF
 	# oh-my-zsh's library takes too long. do not use it.
 	# antigen use oh-my-zsh
@@ -85,7 +90,8 @@ antigen bundles <<EOF
 	# https://github.com/mafredri/zsh-async
 	# https://github.com/sindresorhus/pure
 	mafredri/zsh-async
-	sindresorhus/pure
+	# sindresorhus/pure <- Until the source repo supports coloring, use my fork.
+	eladchen/pure --branch=zstyle-colors
 EOF
 
 # Tell antigen that you're done.
