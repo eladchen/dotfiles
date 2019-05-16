@@ -25,24 +25,29 @@ fi
 # + ------------------------------- +
 # Set up aliases for changing java versions quickly.
 function create-java-alias() {
-  local bin=$(/usr/libexec/java_home -v $1 2> /dev/null)
-  
-  if [[ $? -eq 0 ]]; then
-    v="${version//\./_}"
+  [[ $1 = "" ]] && {
+    echo >&2 "Missing version argument"
+
+    return 1
+  }
+
+  if command /usr/libexec/java_home -Fv $1 > /dev/null 2>&1; then    
+    v="${1//\./_}"
     v="${v//1_/}"
     h=JAVA_"$v"_HOME
   
     # This creates an env variable for each java version
-    export "$h"=$bin
+    export "$h"=$(/usr/libexec/java_home -Fv $1)
     
     # This creates an alias that allows changing java versions
     alias "java-$v"="export JAVA_HOME=\$$h; java -version"
 
     return 0
+
   else
     >&2 echo "Could not find a java executable matching version $1"
 
-    return 1 
+    return 1
   fi
 }
 
@@ -59,9 +64,9 @@ function git-remote-url() {
 
  # Parse remote if local clone used SSH checkout
  [[ "$url" == git@* ]] && {
- 	url="${url##*@}" >&2; # Extract substring from "@"
- 	url="${url%%.git}" >&2; # Extract substring until ".git"
- 	url="http://${url%%:*}/${url##*:}"
+  url="${url##*@}" >&2; # Extract substring from "@"
+  url="${url%%.git}" >&2; # Extract substring until ".git"
+  url="http://${url%%:*}/${url##*:}"
  };
 
  printf "%s\n" "$url"
