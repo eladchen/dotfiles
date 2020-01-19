@@ -19,8 +19,8 @@ setopt inc_append_history     # add commands to HISTFILE in order of execution
 setopt share_history          # share command history data
 
 # antigen time! (assumes brew installation path)
-# source /usr/local/share/antigen/antigen.zsh
-source $HOME/antigen.zsh
+source /usr/local/share/antigen/antigen.zsh
+#source $HOME/antigen.zsh
 
 # Customize "pure" prompt colors
 zstyle :prompt:pure:branch    color yellow
@@ -115,8 +115,8 @@ zle -N         down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 
-bindkey '`'	               autosuggest-accept
-bindkey '``'               autosuggest-execute
+# bindkey '`'	 autosuggest-accept
+# bindkey '``' autosuggest-execute
 
 # Automatically list directory contents on `cd`.
 function auto-ls() {

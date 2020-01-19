@@ -27,6 +27,11 @@ brew install git
 brew install rename
 brew install tree
 brew install hyper
+brew install whatsapp
+brew install slack
+brew install kubectx kubens
+brew install fzf
+
 
 # Remove outdated versions from the cellar
 brew cleanup

@@ -6,9 +6,12 @@
 # https://github.com/jamiew/git-friendly
 curl -sS https://raw.githubusercontent.com/jamiew/git-friendly/master/install.sh | bash -s $(brew --prefix)/bin
 
-# TODO: Install Node Version Manager (NVM)
+# Node Version Manager (NVM)
 # https://github.com/nvm-sh/nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
 
-# TODO: Install Spotify Control
-# https://github.com/dronir/SpotifyControl
+# SDKMAN
+# https://sdkman.io/
+curl -s "https://get.sdkman.io" | bash
 
+sudo -H python -m ensurepip
