@@ -15,6 +15,7 @@ fi
 # | Sourcing                        |
 # + ------------------------------- +
 [ -r "$NVM_DIR" ] && source "$NVM_DIR/nvm.sh"
+[ -f $HOME/.sdkman/bin/sdkman-init.sh ] && source $HOME/.sdkman/bin/sdkman-init.sh
 
 # Setup z only when the when not in zsh shell and z.sh is present.
 [ -z "$ZSH_VERSION" ] && [ -r "$HOME/utils/z/revision/z.sh" ] && source "$HOME/utils/z/revision/z.sh"

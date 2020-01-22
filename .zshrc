@@ -9,6 +9,9 @@ fpath=( "$HOME/.zfunctions" $fpath )
 ## History configuration
 SAVEHIST=100000
 HISTFILE="$HOME/.zsh_history"
+ZSH_CACHE_DIR="$HOME/.zsh_cache"
+
+if [[ ! -a $ZSH_CACHE_DIR ]]; then mkdir $ZSH_CACHE_DIR; fi
 
 setopt extended_history       # record timestamp of command in HISTFILE
 setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
@@ -20,7 +23,6 @@ setopt share_history          # share command history data
 
 # antigen time! (assumes brew installation path)
 source /usr/local/share/antigen/antigen.zsh
-#source $HOME/antigen.zsh
 
 # Customize "pure" prompt colors
 zstyle :prompt:pure:branch    color yellow
@@ -42,8 +44,7 @@ antigen bundles <<EOF
 	robbyrussell/oh-my-zsh plugins/jsontools
 
 	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/kubectl
-	# requires having the kubectl binary installed
-	# robbyrussell/oh-my-zsh plugins/kubectl
+	robbyrussell/oh-my-zsh plugins/kubectl
 
 	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/osx
 	# TODO: This fails misreably - We can fix that create PR
@@ -64,9 +65,11 @@ antigen bundles <<EOF
 	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/yarn
 	robbyrussell/oh-my-zsh plugins/yarn
 
-	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/yarn
+	# https://github.com/ohmyzsh/ohmyzsh/tree/master/lib
 	robbyrussell/oh-my-zsh lib/functions.zsh
 
+	# ==========
+	
 	# A magical 'cd' alternative
 	# https://github.com/rupa/z
 	rupa/z
@@ -108,14 +111,16 @@ zmodload zsh/terminfo
 
 # fuzzy find history traversal using [Up-Arrow] / [Down-Arrow]
 # https://github.com/robbyrussell/oh-my-zsh/blob/486fa1010df847bfd8823b4492623afc7c935709/lib/key-bindings.zsh#L31-L41
-autoload -U    up-line-or-beginning-search
-autoload -U    down-line-or-beginning-search
-zle -N         up-line-or-beginning-search
-zle -N         down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search
-bindkey "^[[B" down-line-or-beginning-search
+autoload -U      up-line-or-beginning-search
+autoload -U      down-line-or-beginning-search
+zle      -N      up-line-or-beginning-search
+zle      -N      down-line-or-beginning-search
+bindkey "^[[A"   up-line-or-beginning-search
+bindkey "^[[B"   down-line-or-beginning-search
+bindkey "^[^[[C" forward-word
+bindkey "^[^[[D" backward-word
 
-# bindkey '`'	 autosuggest-accept
+# bindkey '`'  autosuggest-accept
 # bindkey '``' autosuggest-execute
 
 # Automatically list directory contents on `cd`.
@@ -130,6 +135,10 @@ chpwd_functions=( auto-ls $chpwd_functions )
 
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
+if [ $commands[kubectl] ]; then eval "$(kubectl completion zsh)"; fi
+if [[ -a "/Applications/google-cloud-sdk/path.zsh.inc" ]]; then source "/Applications/google-cloud-sdk/path.zsh.inc"; fi
+if [[ -a "/Applications/google-cloud-sdk/completion.zsh.inc" ]]; then source "/Applications/google-cloud-sdk/completion.zsh.inc"; fi
+	
 # Disable /etc/hosts SSH Completion if it ever gets too big
 # zstyle ':completion:*:ssh:*' hosts off
 
@@ -137,6 +146,4 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 # zprof
 
 # Load default dotfiles
-source ~/.bash_profile
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source $HOME/.bash_profile

@@ -111,6 +111,13 @@ alias npmo="npm install --cache-min 999999999"
 # ██████████████████████████████████████████████████████████
 
 # + ------------------------------- +
+# | Node							|
+# + ------------------------------- +
+alias k="kubectl"
+alias kr="echo "Services\n---"; kubectl get services; echo "\nDeployments\n---"; kubectl get deployments; echo "\nPods\n---"; kubectl get pods"
+# ██████████████████████████████████████████████████████████
+
+# + ------------------------------- +
 # | Disk							|
 # + ------------------------------- +
 # -v = verbose, -i = prompt before every removal
