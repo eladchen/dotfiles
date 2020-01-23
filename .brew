@@ -1,6 +1,11 @@
 #!/bin/bash
 
-# brew search --casks
+# Usage: source .brew
+# The above usage could is very simple
+# An advanvce usage could be a 'Brewfile'
+# https://github.com/Homebrew/homebrew-bundle#usage
+#
+# TIP: brew search [Something] (brew search --casks)
 
 # Make sure we’re using the latest Homebrew
 brew update
@@ -12,14 +17,19 @@ brew upgrade
 brew install coreutils
 echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
 
+brew install bash
+brew install zsh
+echo "Don't forget to add $(brew --prefix bash)/bin/bash & $(brew --prefix zsh)/bin/zsh to /etc/shells"
+
+# The tool of the gods
+# https://github.com/zsh-users/antigen
+brew install antigen
+
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
 brew install findutils
 
-brew install bash
-brew install zsh
-brew install antigen
-
-echo "Don't forget to add $(brew --prefix bash)/bin/bash & $(brew --prefix zsh)/bin/zsh to /etc/shells"
+# https://github.com/nvbn/thefuck
+brew install thefuck
 
 brew install wget
 brew install ack
@@ -32,6 +42,22 @@ brew install slack
 brew install kubectx kubens
 brew install fzf
 
+# Browsers
+brew cask install google-chrome
+brew cask install google-chrome-canary
+brew cask install firefox
+brew cask install firefox-developer-edition
+brew cask install opera
+
+# Everything else
+brew cask install iterm2
+brew cask install sublime-text
+brew cask install the-unarchiver
+brew cask install tor-browser
+brew cask install transmission
+brew cask install hyper
+brew cask install whatsapp
+brew cask install slack
 
 # Remove outdated versions from the cellar
 brew cleanup

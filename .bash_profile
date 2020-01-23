@@ -19,6 +19,10 @@ export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
+if which thefuck > /dev/null; then
+    eval "$(thefuck --alias)"
+fi;
+
 # Use standard ISO 8601 timestamp
 # %F equivalent to %Y-%m-%d
 # %T equivalent to %H:%M:%S (24-hours format)
@@ -26,9 +30,14 @@ export HISTTIMEFORMAT='%F %T '
 
 # keep history up to date, across sessions, in realtime
 # http://unix.stackexchange.com/a/48113
-export HISTCONTROL="erasedups:ignoreboth"       # no duplicate entries
-export HISTSIZE=100000                          # big big history (default is 500)
-export HISTFILESIZE=$HISTSIZE                   # big big history
+export HISTCONTROL="erasedups:ignoreboth" # no duplicate entries
+export HISTSIZE=100000                    # big big history (default is 500)
+export HISTFILESIZE=$HISTSIZE             # big big history
+
+# quit now if in zsh
+if [[ -n "$ZSH_VERSION" ]]; then
+    return 1 2> /dev/null || exit 1;
+fi;
 
 # Make some commands not show up in history
 export HISTIGNORE="cd -:bg:fg:history:clear:pwd;exit:date:* --help"
@@ -59,11 +68,6 @@ type shopt &> /dev/null && {
 		shopt -s "$option" 2> /dev/null
 	done
 }
-
-# quit now if in zsh
-if [[ -n "$ZSH_VERSION" ]]; then
-    return 1 2> /dev/null || exit 1;
-fi;
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh

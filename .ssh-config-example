@@ -1,14 +1,19 @@
+# This file goes under ~/.ssh/config
 Host *
-	# Always use SSH2.
-	Protocol 2
+  # Always use SSH2.
+  Protocol 2
 
   # http://stackoverflow.com/questions/20410252/how-to-reuse-an-ssh-connection
-	ControlMaster auto
-	ControlPath /tmp/ssh_mux_%h_%p_%r
-	ControlPersist 1800
+  ControlMaster auto
+  ControlPath /tmp/ssh_mux_%h_%p_%r
+  ControlPersist 1800
 
-	# also this stuff
-	Compression yes
-	TCPKeepAlive yes
-	ServerAliveInterval 20
-	ServerAliveCountMax 10
+  Compression yes
+  TCPKeepAlive yes
+  ServerAliveInterval 20
+  ServerAliveCountMax 10
+
+Host some-host.com
+  Hostname 127.0.0.1 (Can be a DNS record as well)
+  User bender
+  IdentityFile /some/private/key/path

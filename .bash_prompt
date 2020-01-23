@@ -1,10 +1,6 @@
 # @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”
 # Shamelessly copied from https://github.com/gf3/dotfiles
 
-if which thefuck > /dev/null; then
-    eval "$(thefuck --alias)"
-fi;
-
 # Automatically trim directories at a given depth in the prompt (requires Bash 4.x)
 PROMPT_DIRTRIM=3
 

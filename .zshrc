@@ -17,9 +17,9 @@ setopt extended_history       # record timestamp of command in HISTFILE
 setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt hist_ignore_dups       # ignore duplicated commands history list
 setopt hist_ignore_space      # ignore commands that start with space
-# setopt hist_verify          # show command with history expansion to user before running it
 setopt inc_append_history     # add commands to HISTFILE in order of execution
 setopt share_history          # share command history data
+# setopt hist_verify          # show command with history expansion to user before running it
 
 # antigen time! (assumes brew installation path)
 source /usr/local/share/antigen/antigen.zsh
@@ -33,15 +33,9 @@ antigen bundles <<EOF
 	# oh-my-zsh's library takes too long. do not use it.
 	# antigen use oh-my-zsh
 
-	# specific oh-my-zsh plugins
+	# Specific oh-my-zsh plugins
 	# @see https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
 	# ===============================================================
-
-	# https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#extract
-	robbyrussell/oh-my-zsh plugins/extract
-
-	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/jsontools
-	robbyrussell/oh-my-zsh plugins/jsontools
 
 	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/kubectl
 	robbyrussell/oh-my-zsh plugins/kubectl
@@ -49,6 +43,15 @@ antigen bundles <<EOF
 	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/osx
 	# TODO: This fails misreably - We can fix that create PR
 	# robbyrussell/oh-my-zsh plugins/osx
+
+	# nicoulaj's moar completion files for zsh -- not sure why disabled.
+	# zsh-users/zsh-completions src
+
+	# https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#extract
+	robbyrussell/oh-my-zsh plugins/extract
+
+	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/jsontools
+	robbyrussell/oh-my-zsh plugins/jsontools
 
 	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/jira
 	robbyrussell/oh-my-zsh plugins/jira
@@ -65,19 +68,16 @@ antigen bundles <<EOF
 	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/yarn
 	robbyrussell/oh-my-zsh plugins/yarn
 
-	# https://github.com/ohmyzsh/ohmyzsh/tree/master/lib
+	# https://github.com/robbyrussell/oh-my-zsh/tree/master/lib
 	robbyrussell/oh-my-zsh lib/functions.zsh
 
 	# ==========
-	
+
 	# A magical 'cd' alternative
 	# https://github.com/rupa/z
 	rupa/z
 
-	# nicoulaj's moar completion files for zsh -- not sure why disabled.
-	# zsh-users/zsh-completions src
-
-	# syntax highlighting on the readline
+	# https://github.com/zsh-users/zsh-syntax-highlighting
 	zsh-users/zsh-syntax-highlighting
 
 	# https://github.com/zsh-users/zsh-history-substring-search
@@ -138,7 +138,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 if [ $commands[kubectl] ]; then eval "$(kubectl completion zsh)"; fi
 if [[ -a "/Applications/google-cloud-sdk/path.zsh.inc" ]]; then source "/Applications/google-cloud-sdk/path.zsh.inc"; fi
 if [[ -a "/Applications/google-cloud-sdk/completion.zsh.inc" ]]; then source "/Applications/google-cloud-sdk/completion.zsh.inc"; fi
-	
+
 # Disable /etc/hosts SSH Completion if it ever gets too big
 # zstyle ':completion:*:ssh:*' hosts off
 
