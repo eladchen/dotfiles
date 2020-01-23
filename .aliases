@@ -5,7 +5,6 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias --="cd -"
 
 alias d="cd ~/gdrive"
 alias dl="cd ~/Downloads"
