@@ -136,20 +136,24 @@ function cp_p() {
 	rsync -WavP --human-readable --progress $1 $2
 }
 
-# Test if HTTP compression (RFC 2616 + SDCH) is enabled for a given URL.
-# Send a fake UA string for sites that sniff it instead of using the Accept-Encoding header. (Looking at you, ajax.googleapis.com!)
-function httpcompression() {
-	encoding="$(curl -LIs -H 'User-Agent: Mozilla/5 Gecko' -H 'Accept-Encoding: gzip,deflate,compress,sdch' "$1" | grep '^Content-Encoding:')" && echo "$1 is encoded using ${encoding#* }" || echo "$1 is not using any encoding"
-}
-
 # Syntax-highlight JSON strings or files
 function json() {
 	if [ -p /dev/stdin ]; then
 		# piping, e.g. `echo '{"foo":42}' | json`
-		python -mjson.tool | pygmentize -l javascript
+		python -mjson.tool | pygmentize -l javascript -f terminal256 -O style=monokai -g
 	else
 		# e.g. `json '{"foo":42}'`
-		python -mjson.tool <<< "$*" | pygmentize -l javascript
+		python -mjson.tool <<< "$*" | pygmentize -l javascript -f terminal256 -O style=monokai -g
+	fi
+}
+
+function json_jq() {
+	if [ -p /dev/stdin ]; then
+		# piping, e.g. `echo '{"foo":42}' | json_jq`
+		jq .
+	else
+		# e.g. `json_jq '{"foo":42}'`
+		jq . <<< "$*"
 	fi
 }
 
