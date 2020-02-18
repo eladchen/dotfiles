@@ -13,8 +13,8 @@ brew update
 # Upgrade any already-installed formulae
 brew upgrade
 
-# Install GNU core utilities (those that come with OS X are outdated)
-brew install coreutils
+# Install GNU utilities (those that come with OS X are outdated)
+brew install coreutils findutils
 echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
 
 brew install bash
@@ -25,9 +25,6 @@ echo "Don't forget to add $(brew --prefix bash)/bin/bash & $(brew --prefix zsh)/
 # https://github.com/zsh-users/antigen
 brew install antigen
 
-# Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
-brew install findutils
-
 # https://github.com/nvbn/thefuck
 brew install thefuck
 
@@ -36,10 +33,7 @@ brew install ack
 brew install git
 brew install rename
 brew install tree
-brew install hyper
-brew install whatsapp
-brew install slack
-brew install kubectx kubens
+brew install kubectx kubens derailed/k9s/k9s
 brew install fzf
 
 # Browsers
