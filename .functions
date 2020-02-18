@@ -1,26 +1,7 @@
-# Simple calculator
-function calc() {
-				local result=""
-				result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
-				#                       └─ default (when `--mathlib` is used) is 20
-				#
-				if [[ "$result" == *.* ]]; then
-								# improve the output for decimal numbers
-								printf "$result" |
-								sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
-										-e 's/^-\./-0./'      `# add "0" for cases like "-.5"`\
-										-e 's/0*$//;s/\.$//'   # remove trailing zeros
-				else
-								printf "$result"
-				fi
-				printf "\n"
-}
-
 # Create a new directory and enter it
 function md() {
 	mkdir -p "$@" && cd "$@"
 }
-
 
 # find shorthand
 function f() {
@@ -48,17 +29,6 @@ function dataurl() {
 								mimeType="${mimeType};charset=utf-8"
 				fi
 				echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
-}
-
-# Create a git.io short URL
-# https://github.blog/2011-11-10-git-io-github-url-shortener/ (code is not supported anymore)
-function gitio() {
-	if [ -z "${1}" ]; then
-		echo "Usage: gitio [URL]"
-		return 1
-	fi
-
-	echo "\n🔗 Shorten URL $(curl -is https://git.io/ -F "url=${1}" | awk '/^Location:/ { print $2 }')"
 }
 
 
@@ -113,12 +83,6 @@ function clone {
 	git clone $url $repo && cd $repo && subl .;
 }
 
-# simple git log
-# usage glr v0.2.2 v0.2.3
-function glr() {
-		git log $1 $2 --pretty=format:'* %h %s' --date=short --no-merges 
-}
-
 # git log with per-commit cmd-clickable GitHub URLs (iTerm)
 function gf() {
 	local remote="$(git remote -v | awk '/^origin.*\(push\)$/ {print $2}')"
@@ -138,6 +102,12 @@ function cp_p() {
 	rsync -WavP --human-readable --progress $1 $2
 }
 
+# Test if HTTP compression (RFC 2616 + SDCH) is enabled for a given URL.
+# Send a fake UA string for sites that sniff it instead of using the Accept-Encoding header. (Looking at you, ajax.googleapis.com!)
+function httpcompression() {
+	encoding="$(curl -LIs -H 'User-Agent: Mozilla/5 Gecko' -H 'Accept-Encoding: gzip,deflate,compress,sdch' "$1" | grep '^Content-Encoding:')" && echo "$1 is encoded using ${encoding#* }" || echo "$1 is not using any encoding"
+}
+
 # Syntax-highlight JSON strings or files
 function json() {
 	if [ -p /dev/stdin ]; then
@@ -154,7 +124,7 @@ function json_jq() {
 		# piping, e.g. `echo '{"foo":42}' | json_jq`
 		jq .
 	else
-		# e.g. `json_jq '{"foo":42}'`
+		# e.g. `json '{"foo":42}'`
 		jq . <<< "$*"
 	fi
 }
@@ -162,13 +132,6 @@ function json_jq() {
 # prune a set of empty directories
 function prunedir () { 
 	 find $* -type d -empty -print0 | xargs -0r rmdir -p ; 
-}
-
-# take this repo and copy it to somewhere else minus the .git stuff.
-function gitexport() {
-	mkdir -p "$1"
-	
-	git archive master | tar -x -C "$1"
 }
 
 # get gzipped size
@@ -371,8 +334,15 @@ function win7ff() {
 	openurl $url $2
 }
 
+# take this repo and copy it to somewhere else minus the .git stuff.
+function git-repo-export() {
+	mkdir -p "$1"
+	
+	git archive master | tar -x -C "$1"
+}
+
 # GitHub URL for current repo.
-function gurl() {
+function git-repo-url() {
 	local remotename="${@:-origin}"
 	local remote="$(git remote -v | awk '/^'"$remotename"'.*\(push\)$/ {print $2}')"
 	[[ "$remote" ]] || return
@@ -382,7 +352,7 @@ function gurl() {
 
 # open all changed files (that still actually exist) in the editor
 # credit: @cowboy
-function ged() {
+function git-open-changed-files() {
 	local files=()
 	for f in $(git diff --name-only "$@"); do
 		[[ -e "$f" ]] && files=("${files[@]}" "$f")
@@ -395,10 +365,43 @@ function ged() {
 
 # open last commit in GitHub, in the browser.
 # credit: @cowboy
-function gfu() {
+function git-open-last-commit() {
 	local n="${@:-1}"
 	n=$((n-1))
 	open $(git log -n 1 --skip=$n --pretty=oneline | awk "{printf \"$(gurl)/commit/%s\", substr(\$1,1,7)}")
+}
+
+# Create a git.io short URL
+# https://github.blog/2011-11-10-git-io-github-url-shortener/ (code is not supported anymore)
+function gitio() {
+	if [ -z "${1}" ]; then
+		echo "Usage: gitio [URL]"
+		return 1
+	fi
+	
+	echo "\n🔗 Shorten URL $(curl -is https://git.io/ -F "url=${1}" | awk '/^Location:/ { print $2 }')"
+}
+
+# Checkout git branch (including remote branches), sorted by most recent commit, limit 30 last branches
+function git-fuzzy-branch-checkout() {
+  local branches branch
+  branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+# Checkout git commit
+function git-fuzzy-commit-checkout() {
+  local commits commit
+  commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+  commit=$(echo "$commits" | fzf --tac +s +m -e) &&
+  git checkout $(echo "$commit" | sed "s/ .*//")
+}
+
+# Need fixing (hash is not piped correctly)
+function git-commit-fixup() {
+  git log --graph --color=never --format="%h%d %s %cr" "$@" | fzf | cut -d ' ' -f 2 | xargs git commit --no-verify --fixup
 }
 
 if [ "${TERM_PROGRAM}" = "iTerm.app" ]; then
