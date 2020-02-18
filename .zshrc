@@ -147,3 +147,12 @@ if [[ -a "/Applications/google-cloud-sdk/completion.zsh.inc" ]]; then source "/A
 
 # Load default dotfiles
 source $HOME/.bash_profile
+
+(
+	while true;
+	do
+		iterm2_set_user_var kubeContext $(kubectl config current-context);
+		iterm2_set_user_var kubeNamespace $(kubectl config view --minify --output 'jsonpath={..namespace}');
+		sleep 1;
+	done &
+)
