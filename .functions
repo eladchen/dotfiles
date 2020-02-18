@@ -51,12 +51,14 @@ function dataurl() {
 }
 
 # Create a git.io short URL
+# https://github.blog/2011-11-10-git-io-github-url-shortener/ (code is not supported anymore)
 function gitio() {
-				if [ -z "${1}" -o -z "${2}" ]; then
-								echo "Usage: \`gitio slug url\`"
-								return 1
-				fi
-				curl -i http://git.io/ -F "url=${2}" -F "code=${1}"
+	if [ -z "${1}" ]; then
+		echo "Usage: gitio [URL]"
+		return 1
+	fi
+
+	echo "\n🔗 Shorten URL $(curl -is https://git.io/ -F "url=${1}" | awk '/^Location:/ { print $2 }')"
 }
 
 
