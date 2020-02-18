@@ -77,6 +77,9 @@ antigen bundles <<EOF
 	# https://github.com/rupa/z
 	rupa/z
 
+	# https://github.com/wfxr/forgit
+	wfxr/forgit
+
 	# https://github.com/zsh-users/zsh-syntax-highlighting
 	zsh-users/zsh-syntax-highlighting
 
