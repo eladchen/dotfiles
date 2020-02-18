@@ -14,4 +14,5 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 # https://sdkman.io/
 curl -s "https://get.sdkman.io" | bash
 
-sudo -H python -m ensurepip
+# pip3 install pygments --upgrade
+# sudo -H python -m ensurepip
