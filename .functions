@@ -400,3 +400,9 @@ function gfu() {
 	n=$((n-1))
 	open $(git log -n 1 --skip=$n --pretty=oneline | awk "{printf \"$(gurl)/commit/%s\", substr(\$1,1,7)}")
 }
+
+if [ "${TERM_PROGRAM}" = "iTerm.app" ]; then
+	function iterm2_set_user_var() {
+      printf "\033]1337;SetUserVar=%s=%s\007" "$1" $(printf "%s" "$2" | base64 | tr -d '\n')
+    }
+fi
