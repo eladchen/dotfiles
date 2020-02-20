@@ -151,11 +151,15 @@ if [[ -a "/Applications/google-cloud-sdk/completion.zsh.inc" ]]; then source "/A
 # Load default dotfiles
 source $HOME/.bash_profile
 
-(
-	while true;
-	do
-		iterm2_set_user_var kubeContext $(kubectl config current-context);
-		iterm2_set_user_var kubeNamespace $(kubectl config view --minify --output 'jsonpath={..namespace}');
-		sleep 1;
-	done &
-)
+# This should wrap the existing kubens & kubectx
+# and set the relevant iterm var after each method
+if type 'foo' 2>/dev/null | grep -q 'function'; then
+	(
+		while true;
+		do
+			iterm2_set_user_var kubeContext $(kubectl config current-context);
+			iterm2_set_user_var kubeNamespace $(kubectl config view --minify --output 'jsonpath={..namespace}');
+			sleep 1;
+		done &
+	)
+fi
