@@ -403,9 +403,3 @@ function git-fuzzy-commit-checkout() {
 function git-commit-fixup() {
   git log --graph --color=never --format="%h%d %s %cr" "$@" | fzf | cut -d ' ' -f 2 | xargs git commit --no-verify --fixup
 }
-
-if [ "${TERM_PROGRAM}" = "iTerm.app" ]; then
-	function iterm2_set_user_var() {
-      printf "\033]1337;SetUserVar=%s=%s\007" "$1" $(printf "%s" "$2" | base64 | tr -d '\n')
-    }
-fi
