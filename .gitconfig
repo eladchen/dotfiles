@@ -6,7 +6,7 @@
 	ca = commit -a -m
 	co = checkout
 	br = branch -a
-	branches = branch -a
+	uncommit = reset HEAD~
 	pick = cherry-pick
 	amend = commit --amend
 	merged = branch -a --merged
