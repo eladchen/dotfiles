@@ -188,3 +188,8 @@ function checkout() {
   commit=$(echo "$commits" | fzf --ansi --tac +s +m -e) &&
   git checkout $(echo "$commit" | sed "s/ .*//")
 }
+
+# whatsapp [number with country code] 
+function whatsapp() {
+	open "whatsapp://send?phone=$1"
+}
