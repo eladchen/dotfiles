@@ -34,6 +34,39 @@ export HISTCONTROL="erasedups:ignoreboth" # no duplicate entries
 export HISTSIZE=100000                    # big big history (default is 500)
 export HISTFILESIZE=$HISTSIZE             # big big history
 
+if [ "${TERM_PROGRAM}" = "iTerm.app" ]; then
+  function iterm2_set_user_var() {
+      printf "\033]1337;SetUserVar=%s=%s\007" "$1" $(printf "%s" "$2" | base64 | tr -d '\n')
+  }
+
+  _kubectx_cmd=$(command -v kubectx)
+  _kubens_cmd=$(command -v kubens)
+
+  if [ ! -z $_kubectx_cmd ]; then
+    function _iterm2_set_current_kubectx() {
+      iterm2_set_user_var kubeContext $(kubectl config current-context);
+    }
+
+    function kubectx() {
+      $_kubectx_cmd "$@" && _iterm2_set_current_kubectx;
+    }
+
+    _iterm2_set_current_kubectx
+  fi
+
+  if [ ! -z $_kubens_cmd ]; then
+    function _iterm2_set_current_kubens() {
+      iterm2_set_user_var kubeNamespace $(kubectl config view --minify --output 'jsonpath={..namespace}');
+    }
+
+    function kubens() {
+      $_kubens_cmd "$@" && _iterm2_set_current_kubens;
+    }
+
+    _iterm2_set_current_kubens
+  fi
+fi
+
 # quit now if in zsh
 if [[ -n "$ZSH_VERSION" ]]; then
     return 1 2> /dev/null || exit 1;
