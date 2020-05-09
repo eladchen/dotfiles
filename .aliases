@@ -1,5 +1,5 @@
 # + ------------------------------- +
-# | Navigation						|
+# | Navigation											|
 # + ------------------------------- +
 alias ..="cd .."
 alias ...="cd ../.."
@@ -13,7 +13,7 @@ alias p="cd ~/projects"
 # ██████████████████████████████████████████████████████████
 
 # + ------------------------------- +
-# | Listing							|
+# | Listing			    								|
 # + ------------------------------- +
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then
@@ -41,7 +41,7 @@ unset colorflag
 # ██████████████████████████████████████████████████████████
 
 # + ------------------------------- +
-# | Shortcuts						|
+# | Shortcuts												|
 # + ------------------------------- +
 alias h="history"
 alias j="jobs"
@@ -50,7 +50,7 @@ alias hosts='sudo $EDITOR /etc/hosts'
 # ██████████████████████████████████████████████████████████
 
 # + ------------------------------- +
-# | Browsers						|
+# | Browsers												|
 # + ------------------------------- +
 alias safari="open -a safari"
 alias firefox="open -a firefox"
@@ -69,9 +69,6 @@ alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup 
 alias gh="open http://github.com/eladchen"
 
 alias master="git checkout master"
-
-# This should be a function that accepts the remote branch to use. Error prone otherwise.
-# alias undopush="git push -f origin HEAD^:master"
 # ██████████████████████████████████████████████████████████
 
 # + ------------------------------- +
@@ -83,52 +80,23 @@ alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
 
 # Flush Directory Service cache
 alias flushdns="dscacheutil -flushcache"
-
-# View HTTP traffic (Might be useful someday)
-# alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
-# alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 # ██████████████████████████████████████████████████████████
 
 # + ------------------------------- +
-# | Node							|
-# + ------------------------------- +
-# npm
-alias npm="npm --registry http://registry.npmjs.eu"
-alias npmp="npm publish"
-alias npma="npm adduser"
-alias npmi="npm install"
-alias npmg="npm install -g"
-alias npmu="npm update"
-alias npmr="npm uninstall"
-alias npmrg="npm uninstall -g"
-alias nom="rm -rf node_modules && npm cache clear && npm i"
-
-# npm offline
-# install npm dependencies from cache
-# https://github.com/npm/npm/issues/2568#issuecomment-30626394
-alias npmo="npm install --cache-min 999999999"
-# ██████████████████████████████████████████████████████████
-
-# + ------------------------------- +
-# | Node							|
+# | Kubernetes											|
 # + ------------------------------- +
 alias k="kubectl"
-alias kr="echo "Services\n---"; kubectl get services; echo "\nDeployments\n---"; kubectl get deployments; echo "\nPods\n---"; kubectl get pods"
 # ██████████████████████████████████████████████████████████
 
 # + ------------------------------- +
-# | Disk							|
+# | Disk														|
 # + ------------------------------- +
 # -v = verbose, -i = prompt before every removal
 alias rm='rm -i -v'
-
 alias mv='mv -v'
-
 alias cp='cp -v'
 
 alias diskspace_report="df -P -kHl"
-
-alias fs="stat -f \"%z bytes\""
 
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
@@ -139,7 +107,7 @@ alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo 
 # ██████████████████████████████████████████████████████████
 
 # + ------------------------------- +
-# | Miscellenious					|
+# | Miscellenious										|
 # + ------------------------------- +
 # ROT13-encode text. Works for decoding too! ;)
 alias rot13='tr a-zA-Z n-za-mN-ZA-M'
@@ -147,9 +115,6 @@ alias rot13='tr a-zA-Z n-za-mN-ZA-M'
 # Hide/show all desktop icons (useful when presenting)
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
-
-# Canonical hex dump; some systems have this symlinked
-type hd &> /dev/null || alias hd="hexdump -C"
 
 # OS X has no `md5sum`, so use `md5` as a fallback
 type md5sum &> /dev/null || alias md5sum="md5"
@@ -165,30 +130,19 @@ alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Re
 alias spotoff="sudo mdutil -a -i off"
 alias spoton="sudo mdutil -a -i on"
 
-# Kill all the tabs in Chrome to free up memory
-# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
-alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
-
 # Lock the screen (when going AFK)
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 
-# Stopwatch
-alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
-
 # Update OS X Software.
 alias update_osx='sudo softwareupdate -i -a'
-
-# Update npm, and installed packages
-alias update_npm='npm update npm -g; npm update -g'
 
 # Update Homebrew and installed packages
 alias update_brew="brew -v update; brew upgrade --force-bottle --cleanup; brew cleanup; brew cask cleanup; brew prune; brew doctor"
 
 # Update OSX, npm & Homebrew
 # TODO: Turn these aliases to functions which confirms intent
-alias update='update_osx; update_npm; update_brew'
+alias update='update_osx; update_brew'
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
 # ██████████████████████████████████████████████████████████
-
