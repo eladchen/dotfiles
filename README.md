@@ -24,7 +24,7 @@ sh installers/brew.sh
 
 ###### OS X defaults:
 ```bash
-./.osx
+sh osx-defaults
 ```
 
 #### Private Config
