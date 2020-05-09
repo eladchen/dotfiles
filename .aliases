@@ -1,6 +1,5 @@
-# + ------------------------------- +
-# | Navigation											|
-# + ------------------------------- +
+# Navigation
+# ----------
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -12,9 +11,8 @@ alias dt="cd ~/Desktop"
 alias p="cd ~/projects"
 # ██████████████████████████████████████████████████████████
 
-# + ------------------------------- +
-# | Listing			    								|
-# + ------------------------------- +
+# Listing
+# -------
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then
 	# GNU `ls`
@@ -40,18 +38,16 @@ alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
 unset colorflag
 # ██████████████████████████████████████████████████████████
 
-# + ------------------------------- +
-# | Shortcuts												|
-# + ------------------------------- +
+# Shortcuts
+# ---------
 alias h="history"
 alias j="jobs"
 alias v="vim"
 alias hosts='sudo $EDITOR /etc/hosts'
 # ██████████████████████████████████████████████████████████
 
-# + ------------------------------- +
-# | Browsers												|
-# + ------------------------------- +
+# Browsers
+# --------
 alias safari="open -a safari"
 alias firefox="open -a firefox"
 alias opera="open -a opera"
@@ -59,9 +55,8 @@ alias chrome="open -a google\ chrome"
 alias chromium="open -a chromium"
 # ██████████████████████████████████████████████████████████
 
-# + ------------------------------- +
-# | Git															|
-# + ------------------------------- +
+# Git
+# ---
 alias g="git"
 
 alias gh="open http://github.com/eladchen"
@@ -69,26 +64,20 @@ alias gh="open http://github.com/eladchen"
 alias master="git checkout master"
 # ██████████████████████████████████████████████████████████
 
-# + ------------------------------- +
-# | Network													|
-# + ------------------------------- +
-# IP addresses
+# Network
+# -------
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
-
-# Flush Directory Service cache
 alias flushdns="dscacheutil -flushcache"
 # ██████████████████████████████████████████████████████████
 
-# + ------------------------------- +
-# | Kubernetes											|
-# + ------------------------------- +
+# Kubernetes
+# ----------
 alias k="kubectl"
 # ██████████████████████████████████████████████████████████
 
-# + ------------------------------- +
-# | Disk														|
-# + ------------------------------- +
+# Disk
+# ----
 # -v = verbose, -i = prompt before every removal
 alias rm='rm -i -v'
 alias mv='mv -v'
@@ -104,9 +93,8 @@ alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
 # ██████████████████████████████████████████████████████████
 
-# + ------------------------------- +
-# | Miscellenious										|
-# + ------------------------------- +
+# Miscellenious
+# -------------
 # ROT13-encode text. Works for decoding too! ;)
 alias rot13='tr a-zA-Z n-za-mN-ZA-M'
 
