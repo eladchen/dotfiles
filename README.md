@@ -8,28 +8,28 @@ git clone https://github.com/eladchen/dotfiles.git && cd dotfiles && ./sync.sh
 ```
 > To update later on, just run the sync again.
 
-##### Fresh OSX
+##### Setting up a new Mac
+
+###### Core tools
 ```shell
 sh installers/tools.sh
 ```
 > The above will install / upgrade the core tools in use by the files in this repo (brew, nvm & sdkman).
 
+###### Brew
 ```shell
 sh installers/brew.sh
 ```
 > The above will install various tools using brew.
 
-#### Private Config
-
-Toss it into a file called `.extra` which you do not commit to this repo and just keep it in your `~/`
-
-#### Sensible OS X defaults
-
-When setting up a new Mac, you may want to set some sensible OS X defaults:
-
+###### OS X defaults:
 ```bash
 ./.osx
 ```
+
+#### Private Config
+
+Toss it into a file called `.extra` which you do not commit to this repo and just keep it in your `~/`
 
 #### Misc
 
