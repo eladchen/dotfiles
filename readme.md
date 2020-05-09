@@ -31,9 +31,9 @@ When setting up a new Mac, you may want to set some sensible OS X defaults:
 ./.osx
 ```
 
-##### Misc
+#### Misc
 
-#### Reuse an SSH connection
+##### Reuse an SSH connection
 - http://stackoverflow.com/questions/20410252/how-to-reuse-an-ssh-connection
 
 ```shell
