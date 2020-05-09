@@ -61,6 +61,8 @@ alias g="git"
 
 alias gh="open http://github.com/eladchen"
 
+alias gitrepo='chrome `git-remote-url origin`'
+
 alias master="git checkout master"
 # ██████████████████████████████████████████████████████████
 

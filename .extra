@@ -11,67 +11,12 @@ if [ -r "$HOME/utils/bin" ]; then
 fi
 # ██████████████████████████████████████████████████████████
 
-# + ------------------------------- +
-# | Sourcing                        |
-# + ------------------------------- +
+# Sourcing
+# --------
 [ -r "$NVM_DIR" ] && source "$NVM_DIR/nvm.sh"
+
 [ -f $HOME/.sdkman/bin/sdkman-init.sh ] && source $HOME/.sdkman/bin/sdkman-init.sh
-
-# Setup z only when the when not in zsh shell and z.sh is present.
-[ -z "$ZSH_VERSION" ] && [ -r "$HOME/utils/z/revision/z.sh" ] && source "$HOME/utils/z/revision/z.sh"
 # ██████████████████████████████████████████████████████████
-
-# + ------------------------------- +
-# | Functions                       |
-# + ------------------------------- +
-# Set up aliases for changing java versions quickly.
-function create-java-alias() {
-  [[ $1 = "" ]] && {
-    echo >&2 "Missing version argument"
-
-    return 1
-  }
-
-  if command /usr/libexec/java_home -Fv $1 > /dev/null 2>&1; then    
-    v="${1//\./_}"
-    v="${v//1_/}"
-    h=JAVA_"$v"_HOME
-  
-    # This creates an env variable for each java version
-    export "$h"=$(/usr/libexec/java_home -Fv $1)
-    
-    # This creates an alias that allows changing java versions
-    alias "java-$v"="export JAVA_HOME=\$$h; java -version"
-
-    return 0
-
-  else
-    >&2 echo "Could not find a java executable matching version $1"
-
-    return 1
-  fi
-}
-
-function git-remote-url() {
- local rmt=$1; shift || { printf "Usage: git-remote-url [REMOTE]\n" >&2; return 1; }
- local url
-
- if ! git config --get remote.${rmt}.url &>/dev/null; then
-  printf "%s\n" "Error: not a valid remote name" && return 1
-  # Verify remote using 'git remote -v' command
- fi
-
- url=`git config --get remote.${rmt}.url`
-
- # Parse remote if local clone used SSH checkout
- [[ "$url" == git@* ]] && {
-  url="${url##*@}" >&2; # Extract substring from "@"
-  url="${url%%.git}" >&2; # Extract substring until ".git"
-  url="http://${url%%:*}/${url##*:}"
- };
-
- printf "%s\n" "$url"
-}
 
 if [ "${TERM_PROGRAM}" = "iTerm.app" ]; then
   function iterm2_set_user_var() {
@@ -105,12 +50,6 @@ if [ "${TERM_PROGRAM}" = "iTerm.app" ]; then
     _iterm2_set_current_kubens
   fi
 fi
-# ██████████████████████████████████████████████████████████
-
-# + ------------------------------- +
-# | Aliases                         |
-# + ------------------------------- +
-alias gitrepo='chrome `git-remote-url origin`'
 # ██████████████████████████████████████████████████████████
 
 # xcode-select --install

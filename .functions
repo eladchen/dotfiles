@@ -189,6 +189,27 @@ function checkout() {
   git checkout $(echo "$commit" | sed "s/ .*//")
 }
 
+function git-remote-url() {
+ local rmt=$1; shift || { printf "Usage: git-remote-url [REMOTE]\n" >&2; return 1; }
+ local url
+
+ if ! git config --get remote.${rmt}.url &>/dev/null; then
+  printf "%s\n" "Error: not a valid remote name" && return 1
+  # Verify remote using 'git remote -v' command
+ fi
+
+ url=`git config --get remote.${rmt}.url`
+
+ # Parse remote if local clone used SSH checkout
+ [[ "$url" == git@* ]] && {
+  url="${url##*@}" >&2; # Extract substring from "@"
+  url="${url%%.git}" >&2; # Extract substring until ".git"
+  url="http://${url%%:*}/${url##*:}"
+ };
+
+ printf "%s\n" "$url"
+}
+
 # whatsapp [number with country code] 
 function whatsapp() {
 	open "whatsapp://send?phone=$1"
