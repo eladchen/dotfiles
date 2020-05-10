@@ -1,5 +1,6 @@
 [user]
   name = Elad Chen
+  email = 3628913+eladchen@users.noreply.github.com
 [alias]
 	st = status
 	ca = commit -a -m
