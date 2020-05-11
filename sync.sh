@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 git pull
 
 function doIt() {
-	rsync --exclude ".git/" --exclude ".gitignore" --exclude ".osx" --exclude ".DS_Store" --exclude "sync.sh" --exclude "README.md" --exclude "installers" --exclude ".idea" -av . ~
+	rsync --exclude "\.?git|osx-defaults|gitignore|icons|osx|DS_Store|sync.sh|README.md|installers|idea" -av . ~
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
