@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # Usage: source .brew
 # The above usage could is very simple
@@ -6,6 +6,7 @@
 # https://github.com/Homebrew/homebrew-bundle#usage
 #
 # TIP: brew search [Something] (brew search --casks)
+sudo -v
 
 # Make sure we’re using the latest Homebrew
 brew update
@@ -15,11 +16,13 @@ brew upgrade
 
 # Install GNU utilities (those that come with OS X are outdated)
 brew install coreutils findutils
-echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
 
+# Use updated shells
 brew install bash
 brew install zsh
-echo "Don't forget to add $(brew --prefix bash)/bin/bash & $(brew --prefix zsh)/bin/zsh to /etc/shells"
+
+echo $(brew --prefix bash)/bin/bash | sudo tee -a /etc/shells
+echo $(brew --prefix zsh)/bin/zsh | sudo tee -a /etc/shells
 
 # The tool of the gods
 # https://github.com/zsh-users/antigen
