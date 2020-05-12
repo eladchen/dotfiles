@@ -50,14 +50,7 @@ brew cask install firefox-developer-edition
 brew cask install opera
 
 # Everything else
-brew cask install iterm2
-brew cask install sublime-text
-brew cask install the-unarchiver
-brew cask install tor-browser
-brew cask install transmission
-brew cask install hyper
-brew cask install whatsapp
-brew cask install slack
+brew cask install iterm2 sublime-text the-unarchiver tor-browser transmission hyper whatsapp slack docker
 
 # Remove outdated versions from the cellar
 brew cleanup

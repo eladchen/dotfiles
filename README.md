@@ -36,6 +36,10 @@ Toss it into a file called `.extra` which you do not commit to this repo and jus
 ##### Reuse an SSH connection
 - http://stackoverflow.com/questions/20410252/how-to-reuse-an-ssh-connection
 
+#### TODO:
+
+- Fix auto complete for ssh, docker, and kubectl (for both zsh & bash)
+
 ```shell
 # This file goes under ~/.ssh/config
 Host *

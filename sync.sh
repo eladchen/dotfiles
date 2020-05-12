@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 git pull
 
 function doIt() {
-	rsync --exclude "\.?git|osx-defaults|gitignore|icons|osx|DS_Store|sync.sh|README.md|installers|idea" -av . ~
+	rsync -av --exclude '.gitignore' --exclude '.DS_Store' shell/ ~
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
