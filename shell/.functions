@@ -1,0 +1,216 @@
+# Create a new directory and enter it
+function md() {
+	mkdir -p "$@" && cd "$@"
+}
+
+# find shorthand
+function f() {
+	find . -name "$1" 2>&1 | grep -v 'Permission denied'
+}
+
+# Change working directory to the top-most Finder window location
+function cdf() { # short for `cdfinder`
+	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
+}
+
+# Start an HTTP server from a directory, optionally specifying the port
+function startserver() {
+	local port="${1:-8000}"
+	open "http://localhost:${port}/"
+	# Set the default Content-Type to `text/plain` instead of `application/octet-stream`
+	# And serve everything as UTF-8 (although not technically correct, this doesn’t break anything for binary files)
+	python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
+}
+
+# Create a data URL from a file
+function dataurl() {
+	local mimeType=$(file -b --mime-type "$1")
+	if [[ $mimeType == text/* ]]; then
+					mimeType="${mimeType};charset=utf-8"
+	fi
+	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
+}
+
+# Copy w/ progress
+function cp_p() {
+	rsync -WavP --human-readable --progress $1 $2
+}
+
+function json() {
+	if [ -p /dev/stdin ]; then
+		# piping, e.g. `echo '{"foo":42}' | json_jq`
+		jq .
+	else
+		# e.g. `json '{"foo":42}'`
+		jq . <<< "$*"
+	fi
+}
+
+# prune a set of empty directories
+function prunedir () { 
+	 find $* -type d -empty -print0 | xargs -0r rmdir -p ; 
+}
+
+# Extract archives - use: extract <file>
+# Based on http://dotfiles.org/~pseup/.bashrc
+function extract() {
+	if [ -f "$1" ] ; then
+		local filename=$(basename "$1")
+		local foldername="${filename%%.*}"
+		local fullpath=`perl -e 'use Cwd "abs_path";print abs_path(shift)' "$1"`
+		local didfolderexist=false
+		if [ -d "$foldername" ]; then
+			didfolderexist=true
+			read -p "$foldername already exists, do you want to overwrite it? (y/n) " -n 1
+			echo
+			if [[ $REPLY =~ ^[Nn]$ ]]; then
+				return
+			fi
+		fi
+		mkdir -p "$foldername" && cd "$foldername"
+		case $1 in
+			*.tar.bz2) tar xjf "$fullpath" ;;
+			*.tar.gz) tar xzf "$fullpath" ;;
+			*.tar.xz) tar Jxvf "$fullpath" ;;
+			*.tar.Z) tar xzf "$fullpath" ;;
+			*.tar) tar xf "$fullpath" ;;
+			*.taz) tar xzf "$fullpath" ;;
+			*.tb2) tar xjf "$fullpath" ;;
+			*.tbz) tar xjf "$fullpath" ;;
+			*.tbz2) tar xjf "$fullpath" ;;
+			*.tgz) tar xzf "$fullpath" ;;
+			*.txz) tar Jxvf "$fullpath" ;;
+			*.zip) unzip "$fullpath" ;;
+			*) echo "'$1' cannot be extracted via extract()" && cd .. && ! $didfolderexist && rm -r "$foldername" ;;
+		esac
+	else
+		echo "'$1' is not a valid file"
+	fi
+}
+
+# Note: shells must be listed in /etc/shells
+# Usage:
+# `shell /usr/local/bin/bash`
+# `shell /usr/local/bin/zsh`
+function shell() {
+	chsh -s $1
+}
+
+function whois() {
+	local domain=$(echo "$1" | awk -F/ '{print $3}') # get domain from URL
+	
+	if [ -z $domain ] ; then
+		domain=$1
+	fi
+	
+	echo "Getting whois record for: $domain …"
+
+	# avoid recursion
+	# this is the best whois server
+	# strip extra fluff
+	/usr/bin/whois -h whois.internic.net $domain | sed '/NOTICE:/q'
+}
+
+# All the dig info
+function digga() {
+	dig +nocmd "$1" any +multiline +noall +answer
+}
+
+# Add reminder to Reminders.app (OS X 10.8)
+# Usage: `remind 'foo'` or `echo 'foo' | remind`
+function remind() {
+	local text
+	
+	if [ -t 0 ]; then
+		text="$1" # argument
+	else
+		text=$(cat) # pipe
+	fi
+
+	osascript >/dev/null <<-EOF
+		tell application "Reminders"
+			tell the default list
+				make new reminder with properties {name:"$text"}
+			end tell
+		end tell
+	EOF
+}
+
+# Launch installed browsers for a specific URL
+# Usage: browsers "http://www.google.com"
+function browsers() {
+	chrome $1
+	opera $1
+	firefox $1
+	safari $1 
+}
+
+# take this repo and copy it to somewhere else minus the .git stuff.
+function git-repo-export() {
+	mkdir -p "$1"
+	
+	git archive master | tar -x -C "$1"
+}
+
+# GitHub URL for current repo.
+function git-repo-url() {
+	local remotename="${@:-origin}"
+	local remote="$(git remote -v | awk '/^'"$remotename"'.*\(push\)$/ {print $2}')"
+	[[ "$remote" ]] || return
+	local user_repo="$(echo "$remote" | perl -pe 's/.*://;s/\.git$//')"
+	echo "https://github.com/$user_repo"
+}
+
+# Create a git.io short URL
+# https://github.blog/2011-11-10-git-io-github-url-shortener/ (code is not supported anymore)
+function gitio() {
+	if [ -z "${1}" ]; then
+		echo "Usage: gitio [URL]"
+		return 1
+	fi
+	
+	echo "\n🔗 Shorten URL $(curl -is https://git.io/ -F "url=${1}" | awk '/^Location:/ { print $2 }')"
+}
+
+# Checkout git branch (including remote branches), sorted by most recent commit, limit 30 last branches
+function branches() {
+  local branches branch
+  branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+# Checkout git commit
+function checkout() {
+  local commits commit
+  commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+  commit=$(echo "$commits" | fzf --ansi --tac +s +m -e) &&
+  git checkout $(echo "$commit" | sed "s/ .*//")
+}
+
+function git-remote-url() {
+ local rmt=$1; shift || { printf "Usage: git-remote-url [REMOTE]\n" >&2; return 1; }
+ local url
+
+ if ! git config --get remote.${rmt}.url &>/dev/null; then
+  printf "%s\n" "Error: not a valid remote name" && return 1
+  # Verify remote using 'git remote -v' command
+ fi
+
+ url=`git config --get remote.${rmt}.url`
+
+ # Parse remote if local clone used SSH checkout
+ [[ "$url" == git@* ]] && {
+  url="${url##*@}" >&2; # Extract substring from "@"
+  url="${url%%.git}" >&2; # Extract substring until ".git"
+  url="http://${url%%:*}/${url##*:}"
+ };
+
+ printf "%s\n" "$url"
+}
+
+# whatsapp [number with country code] 
+function whatsapp() {
+	open "whatsapp://send?phone=$1"
+}
