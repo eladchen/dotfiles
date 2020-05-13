@@ -92,6 +92,9 @@ alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo 
 
 # Miscellenious
 # -------------
+# https://stackoverflow.com/a/26848769
+alias history='history 1'
+
 # ROT13-encode text. Works for decoding too! ;)
 alias rot13='tr a-zA-Z n-za-mN-ZA-M'
 

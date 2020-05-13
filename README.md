@@ -33,7 +33,8 @@ Toss it into a file called `.extra` which you do not commit to this repo and jus
 
 #### TODO:
 
-- Fix auto complete for ssh, docker, and kubectl (for both zsh & bash)
+- Drop bash support
+- Fix auto complete for ssh, and kubectl
 
 #### Misc
 

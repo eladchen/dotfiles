@@ -25,95 +25,17 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
-# https://stackoverflow.com/a/26848769
-alias history='history 1'
-
 # antigen time! (assumes brew installation path)
 source $(brew --prefix antigen)/share/antigen/antigen.zsh
 
-# Customize "pure" prompt colors
-zstyle :prompt:pure:branch    color yellow
-zstyle :prompt:pure:success   color green
-zstyle :prompt:pure:exec_time color white
-
-antigen bundles <<EOF
-	# oh-my-zsh's library takes too long. do not use it.
-	# antigen use oh-my-zsh
-
-	# Specific oh-my-zsh plugins
-	# @see https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
-	# ===============================================================
-
-	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/kubectl
-	robbyrussell/oh-my-zsh plugins/kubectl
-
-	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/osx
-	# TODO: This fails misreably - We can fix that create PR
-	# robbyrussell/oh-my-zsh plugins/osx
-
-	# nicoulaj's moar completion files for zsh -- not sure why disabled.
-	# zsh-users/zsh-completions src
-
-	# https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#extract
-	robbyrussell/oh-my-zsh plugins/extract
-
-	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/jsontools
-	robbyrussell/oh-my-zsh plugins/jsontools
-
-	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/jira
-	robbyrussell/oh-my-zsh plugins/jira
-
-	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/pip
-	robbyrussell/oh-my-zsh plugins/pip
-
-	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/urltools
-	robbyrussell/oh-my-zsh plugins/urltools
-
-	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/web-search
-	robbyrussell/oh-my-zsh plugins/web-search
-
-	# https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/yarn
-	robbyrussell/oh-my-zsh plugins/yarn
-
-	# https://github.com/robbyrussell/oh-my-zsh/tree/master/lib
-	robbyrussell/oh-my-zsh lib/functions.zsh
-	# ==========
-
-	# A magical 'cd' alternative
-	# https://github.com/rupa/z
-	rupa/z
-
-	# https://github.com/wfxr/forgit
-	wfxr/forgit
-
-	# https://github.com/zsh-users/zsh-syntax-highlighting
-	zsh-users/zsh-syntax-highlighting
-
-	# https://github.com/zsh-users/zsh-history-substring-search
-	zsh-users/zsh-history-substring-search ./zsh-history-substring-search.zsh
-
-	# https://github.com/zsh-users/zsh-autosuggestions
-	zsh-users/zsh-autosuggestions
-
-	# https://github.com/trapd00r/zsh-syntax-highlighting-filetypes
-	trapd00r/zsh-syntax-highlighting-filetypes
-
-	# sindresorhus's "pure" (lightweight theme with prompt)
-	# https://github.com/mafredri/zsh-async
-	# https://github.com/sindresorhus/pure
-	mafredri/zsh-async
-	# sindresorhus/pure <- Until the source repo supports coloring, use my fork.
-	eladchen/pure --branch=zstyle-colors
-EOF
-
-# Tell antigen that you're done.
-antigen apply
+antigen init .antigenrc
 
 # Configure "pure"
-export PURE_GIT_UNTRACKED_DIRTY=0
+zstyle :prompt:pure:git:branch color yellow
+zstyle :prompt:pure:success    color green
+zstyle :prompt:pure:exec_time  color white
 
-###
-#################################################################################################
+export PURE_GIT_UNTRACKED_DIRTY=0
 
 # bind UP and DOWN arrow keys for history search
 zmodload zsh/terminfo
@@ -124,6 +46,7 @@ autoload -U      up-line-or-beginning-search
 autoload -U      down-line-or-beginning-search
 zle      -N      up-line-or-beginning-search
 zle      -N      down-line-or-beginning-search
+
 bindkey "^[[A"   up-line-or-beginning-search
 bindkey "^[[B"   down-line-or-beginning-search
 bindkey "^[^[[C" forward-word
@@ -146,9 +69,6 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 
 # Disable /etc/hosts SSH Completion if it ever gets too big
 # zstyle ':completion:*:ssh:*' hosts off
-
-# uncomment to finish profiling
-# zprof
 
 # Load default dotfiles
 source $HOME/.bash_profile
