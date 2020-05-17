@@ -28,12 +28,12 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 # antigen time! (assumes brew installation path)
 source $(brew --prefix antigen)/share/antigen/antigen.zsh
 
-antigen init .antigenrc
+antigen init "$HOME/.antigenrc"
 
 # Configure "pure"
-zstyle :prompt:pure:git:branch color yellow
-zstyle :prompt:pure:success    color green
-zstyle :prompt:pure:exec_time  color white
+zstyle :prompt:pure:git:branch     color yellow
+zstyle :prompt:pure:prompt:success color green
+zstyle :prompt:pure:execution_time color white
 
 export PURE_GIT_UNTRACKED_DIRTY=0
 

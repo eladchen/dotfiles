@@ -41,6 +41,7 @@ brew install rename
 brew install tree
 brew install kubectl kubectx kubens derailed/k9s/k9s
 brew install fzf
+brew install jq
 
 # Browsers
 brew cask install google-chrome
