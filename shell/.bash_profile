@@ -44,7 +44,7 @@ if [ "${TERM_PROGRAM}" = "iTerm.app" ]; then
 
   if [ ! -z $_kubectx_cmd ]; then
     function _iterm2_set_current_kubectx() {
-      iterm2_set_user_var kubeContext $(kubectl config current-context);
+      iterm2_set_user_var kubeContext $(kubectl config current-context > /dev/null 2>&1 || printf "N/A");
     }
 
     function kubectx() {
@@ -56,7 +56,7 @@ if [ "${TERM_PROGRAM}" = "iTerm.app" ]; then
 
   if [ ! -z $_kubens_cmd ]; then
     function _iterm2_set_current_kubens() {
-      iterm2_set_user_var kubeNamespace $(kubectl config view --minify --output 'jsonpath={..namespace}');
+      iterm2_set_user_var kubeNamespace $(kubectl config view --minify --output 'jsonpath={..namespace}' > /dev/null 2>&1 || printf "N/A");
     }
 
     function kubens() {
@@ -108,3 +108,4 @@ type shopt &> /dev/null && {
 # Add tab completion for `defaults read|write NSGlobalDomain`
 # You could just use `-g` instead, but I like being explicit
 complete -W "NSGlobalDomain" defaults
+
