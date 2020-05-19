@@ -1,0 +1,58 @@
+# Using this file: antigen init ~/.antigenrc
+
+antigen bundles <<EOF
+	# Instead of using the entire oh-my-zsh, use specific oh-my-zsh plugins
+	# see https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
+	# ------
+
+	# Load bundles from the default repo (https://github.com/ohmyzsh/ohmyzsh)
+
+	# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/extract
+	ohmyzsh/ohmyzsh plugins/extract
+
+	# https://github.com/ohmyzsh/tree/master/plugins/pip
+	ohmyzsh/ohmyzsh plugins/pip
+
+	# https://github.com/ohmyzsh/tree/master/plugins/urltools
+	ohmyzsh/ohmyzsh plugins/urltools
+
+	# https://github.com/ohmyzsh/tree/master/plugins/web-search
+	ohmyzsh/ohmyzsh plugins/web-search
+
+	# https://github.com/ohmyzsh/tree/master/plugins/gradle
+	ohmyzsh/ohmyzsh plugins/gradle
+
+	# https://github.com/ohmyzsh/tree/master/plugins/docker
+	ohmyzsh/ohmyzsh plugins/docker	
+
+	# https://github.com/ohmyzsh/tree/master/lib
+	ohmyzsh/ohmyzsh lib/functions.zsh
+	# ==========
+
+	# https://github.com/wfxr/forgit
+	wfxr/forgit
+
+	# https://github.com/rupa/z
+	rupa/z
+
+	# https://github.com/zsh-users/zsh-syntax-highlighting
+	zsh-users/zsh-syntax-highlighting
+
+	# https://github.com/zsh-users/zsh-history-substring-search
+	zsh-users/zsh-history-substring-search ./zsh-history-substring-search.zsh
+
+	# https://github.com/zsh-users/zsh-autosuggestions
+	zsh-users/zsh-autosuggestions
+
+	# https://github.com/trapd00r/zsh-syntax-highlighting-filetypes
+	trapd00r/zsh-syntax-highlighting-filetypes
+
+	# sindresorhus's "pure" (lightweight theme with prompt)
+	# https://github.com/mafredri/zsh-async
+	# https://github.com/sindresorhus/pure
+	# eladchen/pure --branch=zstyle-colors
+	mafredri/zsh-async
+	sindresorhus/pure
+EOF
+
+antigen apply
