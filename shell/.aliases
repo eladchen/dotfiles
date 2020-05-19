@@ -90,6 +90,13 @@ alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
 # ██████████████████████████████████████████████████████████
 
+# Kubernetes
+# ----------
+alias k='kubectl'
+alias kcurl='k run "$USER-curl" --generator=run-pod/v1 --image=radial/busyboxplus:curl -i --tty --rm'
+
+# ██████████████████████████████████████████████████████████
+
 # Miscellenious
 # -------------
 # https://stackoverflow.com/a/26848769

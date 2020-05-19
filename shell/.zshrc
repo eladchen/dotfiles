@@ -72,3 +72,8 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 
 # Load default dotfiles
 source $HOME/.bash_profile
+
+source "$HOME/google-cloud-sdk/completion.zsh.inc"
+source "$HOME/google-cloud-sdk/path.zsh.inc"
+
+source <(kubectl completion zsh | sed '/_bash_comp/ s/^#*/#/')

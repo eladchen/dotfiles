@@ -12,6 +12,10 @@ fi
 # Installing / Upgrading is the same
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 
+if ! command -v gcloud > /dev/null 2>&1; then
+	curl https://sdk.cloud.google.com | bash -s -- --disable-prompts
+fi
+
 # SDKMAN
 # https://sdkman.io/
 if command -v sdk > /dev/null 2>&1; then
