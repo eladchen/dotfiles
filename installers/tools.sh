@@ -4,7 +4,7 @@ if command -v brew > /dev/null 2>&1; then
   brew update
 else
 	# This assumes ruby is available :)
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
 # Node Version Manager (NVM)
