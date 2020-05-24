@@ -62,3 +62,10 @@ Host some-host.com
   User bender
   IdentityFile /some/private/key/path
 ```
+
+##### Do not record Google-Compute-Engine SSH sessions into the known_hosts file
+
+```shell
+Match exec "nslookup %h | grep 'bc.googleusercontent.com'"
+   UserKnownHostsFile none
+```
