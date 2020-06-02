@@ -18,3 +18,7 @@ export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
 if [ -r "$HOME/utils/bin" ]; then
   export PATH=$HOME/utils/bin:$PATH
 fi
+
+source $NVM_DIR/nvm.sh
+
+source $HOME/.sdkman/bin/sdkman-init.sh
