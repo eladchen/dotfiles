@@ -214,3 +214,14 @@ function git-remote-url() {
 function whatsapp() {
 	open "whatsapp://send?phone=$1"
 }
+
+function j() {
+	versions=$(/bin/ls $SDKMAN_DIR/candidates/java | grep -v current | awk -F '*' '{print $1}' | sort -nr | uniq)
+	current=$(sdk c java | awk -F ' ' '{print $NF}' | tr -d '\n')
+	versions=$(echo $versions | sed "s/$current/$(print '\033')[32m$current$(printf '\033')[m/")
+	selected=$(fzf-tmux -d $(( 2 + $(wc -l <<< "$versions") )) +m --ansi <<< $versions)
+
+	if [ ! -z "$selected" ]; then
+		sdk use java $selected
+	fi
+}

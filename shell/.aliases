@@ -41,7 +41,6 @@ unset colorflag
 # Shortcuts
 # ---------
 alias h="history"
-alias j="jobs"
 alias v="vim"
 alias hosts='sudo $EDITOR /etc/hosts'
 # ██████████████████████████████████████████████████████████
