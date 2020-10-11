@@ -1,7 +1,7 @@
 # Load ~/.extra, ~/.bash_prompt, ~/.exports, ~/.aliases and ~/.functions
 # ~/.extra can be used for settings you don’t want to commit
 for file in ~/.{extra,bash_prompt,exports,aliases,functions}; do
-	[ -r "$file" ] && source "$file"
+  [ -r "$file" ] && source "$file"
 done
 
 unset file
@@ -44,7 +44,7 @@ if [ "${TERM_PROGRAM}" = "iTerm.app" ]; then
 
   if [ ! -z $_kubectx_cmd ]; then
     function _iterm2_set_current_kubectx() {
-      iterm2_set_user_var kubeContext $(kubectl config current-context > /dev/null 2>&1 || printf "N/A");
+      iterm2_set_user_var kubeContext $(kubectl config current-context 2> /dev/null || printf "N/A");
     }
 
     function kubectx() {
@@ -56,7 +56,7 @@ if [ "${TERM_PROGRAM}" = "iTerm.app" ]; then
 
   if [ ! -z $_kubens_cmd ]; then
     function _iterm2_set_current_kubens() {
-      iterm2_set_user_var kubeNamespace $(kubectl config view --minify --output 'jsonpath={..namespace}' > /dev/null 2>&1 || printf "N/A");
+      iterm2_set_user_var kubeNamespace $(kubectl config view --minify --output 'jsonpath={..namespace}' 2> /dev/null || printf "N/A");
     }
 
     function kubens() {
@@ -76,30 +76,30 @@ fi;
 export HISTIGNORE="cd -:bg:fg:history:clear:pwd;exit:date:* --help"
 
 type shopt &> /dev/null && {
-	# Autocorrect on directory names to match a glob.
-	shopt -s dirspell 2> /dev/null
+  # Autocorrect on directory names to match a glob.
+  shopt -s dirspell 2> /dev/null
 
-	# Turn on recursive globbing (enables ** to recurse all directories)
-	shopt -s globstar 2> /dev/null
+  # Turn on recursive globbing (enables ** to recurse all directories)
+  shopt -s globstar 2> /dev/null
 
-	# Case-insensitive globbing (used in pathname expansion)
-	shopt -s nocaseglob
+  # Case-insensitive globbing (used in pathname expansion)
+  shopt -s nocaseglob
 
-	# Append to the Bash history file, rather than overwriting it
-	shopt -s histappend
+  # Append to the Bash history file, rather than overwriting it
+  shopt -s histappend
 
-	# Autocorrect typos in path names when using `cd`
-	shopt -s cdspell
+  # Autocorrect typos in path names when using `cd`
+  shopt -s cdspell
 
-	# Save multi-line commands as one command
-	shopt -s cmdhist
+  # Save multi-line commands as one command
+  shopt -s cmdhist
 
-	# Enable some Bash 4 features when possible:
-	# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
-	# * Recursive globbing, e.g. `echo **/*.txt`
-	for option in autocd globstar; do
-		shopt -s "$option" 2> /dev/null
-	done
+  # Enable some Bash 4 features when possible:
+  # * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
+  # * Recursive globbing, e.g. `echo **/*.txt`
+  for option in autocd globstar; do
+    shopt -s "$option" 2> /dev/null
+  done
 }
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
